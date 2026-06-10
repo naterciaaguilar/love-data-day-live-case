@@ -26,7 +26,7 @@ USE_MOCK = os.getenv("USE_MOCK", "false").lower() == "true"
 # ------------------------------------------------------------------
 def _mock_llm(mensagens: list) -> str:
     ultima = next(
-        (m["content"] for m in reversed(mensagens) if m["role"] == "user"),
+        (m["content"] for m in reversed(mensagens) if m.get("role") == "user"),
         "..."
     )
     trecho = ultima[:60] + ("..." if len(ultima) > 60 else "")
@@ -35,12 +35,21 @@ def _mock_llm(mensagens: list) -> str:
 
 def _mock_msg_com_tool(mensagens: list) -> dict:
     """Simula uma resposta com tool_call para demonstração offline."""
+    # Parâmetros mock fixos por tool, para garantir um retorno válido
+    _mock_params = {
+        "tool_status_pedido": "12345",
+        "tool_cardapio":      "pizza express",
+        "tool_tempo_entrega": "pampulha",
+        "tool_cupom":         "UFMG10",
+    }
     ultima = next(
-        (m["content"] for m in reversed(mensagens) if m["role"] == "user"),
-        "123"
+        (m["content"] for m in reversed(mensagens) if m.get("role") == "user"),
+        "12345"
     )
-    parametro = ultima.split()[-1]  # usa a última palavra como parâmetro mock
+    # Tenta usar o último token como parâmetro; cai no default "12345"
+    parametro = ultima.split()[-1] if ultima.split()[-1].isalnum() else "12345"
     return {
+        "role": "assistant",
         "content": None,
         "tool_calls": [{
             "id": "mock_tc_001",

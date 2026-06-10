@@ -67,4 +67,5 @@ O mock responde `"[MOCK] Recebi: '...' — modo offline ativo."` e no Nível 3 s
 ```
 requests>=2.31.0
 python-dotenv>=1.0.0
+urllib3<2
 ```

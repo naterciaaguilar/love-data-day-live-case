@@ -8,6 +8,9 @@
 #   ✅ O modelo "lembra" do que foi dito antes.
 # ============================================================
 
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from config import chamar_llm
 
 # ──────────────────────────────────────────────────────────

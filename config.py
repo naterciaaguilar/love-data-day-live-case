@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass  # sem python-dotenv, usa os.environ diretamente
 
-API_URL = "https://api.openai.com/v1/chat/completions"
+API_URL = os.getenv("API_URL", "https://api.openai.com/v1/chat/completions")
 MODELO  = "gpt-4o-mini"
 
 # USE_MOCK=true no .env ativa respostas simuladas (sem internet)
